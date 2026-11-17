@@ -1,8 +1,8 @@
 import pandas as pd
 import plotly.graph_objects as go
 
-df_emigracions = pd.read_csv(r"C:\Users\itsjo\code\Repositori_git\data\processed\emigracions_externes.csv")
-df_immigracions = pd.read_csv(r"C:\Users\itsjo\code\Repositori_git\data\processed\immigracions_externes.csv")
+df_emigracions = pd.read_csv(r"data\processed\emigracions_externes.csv")
+df_immigracions = pd.read_csv(r"data\processed\immigracions_externes.csv")
 
 imm_grup = df_immigracions.groupby("procedencia")["valor"].sum()
 em_grup = df_emigracions.groupby("destinacio")["valor"].sum()
@@ -41,7 +41,6 @@ for dest, valor in em_grup.items():
 
 
 fig = go.Figure(data=[go.Sankey(
-    arrangement="fixed",
     node=dict(
         label=nodes,
         x=x,
