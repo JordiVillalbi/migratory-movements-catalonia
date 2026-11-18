@@ -24,8 +24,8 @@ OUTPUT_GIF = "results/figures/mapa_bivariant_migracio_atur.gif"
 # False -> els tercils es recalculen cada any (només mostra la posició relativa de l'any).
 TERCILS_GLOBALS = True
 
-MS_PER_FRAME = 1200       # durada de cada any en mil·lisegons
-MS_ULTIM_FRAME = 3000     # pausa més llarga a l'últim any
+MS_PER_FRAME = 2000       # durada de cada any en mil·lisegons
+MS_ULTIM_FRAME = 5000     # pausa més llarga a l'últim any
 DPI = 100
 
 # ==================================================
