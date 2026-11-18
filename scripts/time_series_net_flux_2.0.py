@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
 # Load files where data is stored
-df_immigration = pd.read_csv('data/processed/immigracions_externes.csv')
-df_emigration = pd.read_csv('data/processed/emigracions_externes.csv')
+df_immigration = pd.read_csv('data/processed/migration/immigracions_externes.csv')
+df_emigration = pd.read_csv('data/processed/migration/emigracions_externes.csv')
 
 # We merge the columns that talk about nationality and gender as we are only interested in the net flux by regions
 immigration_agg = df_immigration.groupby(['any', 'procedencia'])['valor'].sum().reset_index()
