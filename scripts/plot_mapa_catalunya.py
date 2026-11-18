@@ -1,34 +1,31 @@
-
+import numpy as np
 import pandas as pd
 import geopandas as gpd
 import matplotlib.pyplot as plt
-from matplotlib.colors import TwoSlopeNorm
+from matplotlib.colors import Normalize
+from matplotlib.cm import ScalarMappable
+from matplotlib.patches import Patch
 from pathlib import Path
 
-# --------------------------------------------------
-# 1. CARREGAR DADES DE MIGRACIONS
-# --------------------------------------------------
+CSV = "data/raw/migration/saldo_extern_comarques.csv"
 
-df = pd.read_csv(
-    "data/raw/migration/migracions_totes_comarques.csv"
-)
+# Períodes sense solapament; el 2021 és una ruptura de font de l'INE
+PERIODES = [
+    ("2002–2008", 2002, 2008),
+    ("2009–2014", 2009, 2014),
+    ("2015–2020", 2015, 2020),
+    ("2021–2022", 2021, 2022),
+]
 
-# Netejar noms de columnes
-df.columns = df.columns.str.strip()
-
-# Preparar codi de comarca per fer el join
+df = pd.read_csv(CSV)
 df["Codi"] = df["Codi"].astype(str).str.zfill(2)
 
-# Variable que volem representar
-variable = "Saldo migratori total"
 
-df[variable] = pd.to_numeric(
-    df[variable], errors="coerce"
-)
+def taxa(ini, fi):
+    """Taxa del període = suma de saldos / suma de població-any, per 1.000."""
+    s = df[df["Any"].between(ini, fi)].groupby("Codi")[["Saldo_ext", "Poblacio"]].sum()
+    return s["Saldo_ext"] / s["Poblacio"] * 1000
 
-# --------------------------------------------------
-# 2. DESCARREGAR LÍMITS GEOGRÀFICS
-# --------------------------------------------------
 
 url = (
     "https://services.arcgis.com/fwF8e4aLR6TRWtqM/"
@@ -37,86 +34,46 @@ url = (
     "where=1%3D1&outFields=CODICOMAR,NOMCOMAR"
     "&returnGeometry=true&outSR=4326&f=geojson"
 )
-
 gdf = gpd.read_file(url)
+gdf["Codi"] = gdf["CODICOMAR"].astype(str).str.zfill(2)
 
-print("Columnes del mapa:", gdf.columns.tolist())
-print("Nombre de geometries:", len(gdf))
+for titol, ini, fi in PERIODES:
+    gdf[titol] = gdf["Codi"].map(taxa(ini, fi))
 
-# --------------------------------------------------
-# 3. UNIR MAPA I DADES
-# --------------------------------------------------
-
-gdf["CODICOMAR"] = (
-    gdf["CODICOMAR"].astype(str).str.zfill(2)
-)
-
-gdf = gdf.merge(
-    df[["Codi", "Nom", variable]],
-    left_on="CODICOMAR",
-    right_on="Codi",
-    how="left"
-)
-
-# Comprovar si totes les comarques tenen dades
-print("\nComarques sense dades:")
-print(gdf[gdf[variable].isna()][["CODICOMAR", "NOMCOMAR"]])
-
-# Projectar a coordenades UTM
 gdf = gdf.to_crs(epsg=25831)
 
-# --------------------------------------------------
-# 4. REPRESENTAR EL MAPA
-# --------------------------------------------------
+# Escala única, simètrica al voltant de 0 i retallada al percentil 95
+cols = [p[0] for p in PERIODES]
+lim = np.nanpercentile(np.abs(gdf[cols].to_numpy(float)), 95)
+norm = Normalize(vmin=-lim, vmax=lim)
+cmap = "RdBu"
 
-fig, ax = plt.subplots(figsize=(11, 10))
+# Figura
+fig, axes = plt.subplots(2, 2, figsize=(11, 10.5), layout="constrained")
+fig.get_layout_engine().set(wspace=0.01, hspace=0.04)
 
-# Escala de colors centrada en zero
-vmax = gdf[variable].abs().max()
+for ax, (titol, ini, fi) in zip(axes.flat, PERIODES):
+    gdf.plot(
+        column=titol, cmap=cmap, norm=norm,
+        linewidth=0.4, edgecolor="0.35",
+        missing_kwds={"color": "lightgrey", "edgecolor": "0.5", "hatch": "///"},
+        ax=ax,
+    )
+    ax.set_title(titol, fontsize=14, fontweight="bold")
+    ax.set_axis_off()
 
-norm = TwoSlopeNorm(
-    vmin=-vmax,
-    vcenter=0,
-    vmax=vmax
+axes[1, 1].legend(
+    handles=[Patch(facecolor="lightgrey", edgecolor="0.5", hatch="///",
+                   label="No data")],
+    loc="lower right", frameon=False, fontsize=9,
 )
 
-gdf.plot(
-    column=variable,
-    cmap="RdYlGn",
-    norm=norm,
-    linewidth=0.6,
-    edgecolor="white",
-    legend=True,
-    legend_kwds={
-        "label": "Saldo migratori (persones)",
-        "shrink": 0.65
-    },
-    missing_kwds={
-        "color": "lightgrey",
-        "label": "Sense dades"
-    },
-    ax=ax
-)
+sm = ScalarMappable(norm=norm, cmap=cmap)
+fig.colorbar(sm, ax=axes, shrink=0.6, extend="both",
+             label="People per 1.000 inhabitants per year")
 
-# Títol
-ax.set_title(
-    "Saldo migratori total per comarca",
-    fontsize=17,
-    fontweight="bold",
-    pad=20
-)
+fig.suptitle("Net external migration by comarca (annual average)",
+             fontsize=17, fontweight="bold")
 
-ax.set_axis_off()
-
-plt.tight_layout()
-
-# Guardar gràfic
-Path("figures").mkdir(exist_ok=True)
-
-plt.savefig(
-    "figures/mapa_saldo_migratori.png",
-    dpi=300,
-    bbox_inches="tight"
-)
-
+plt.savefig("figures/mapa_saldo_extern_4periodes.png", dpi=300, bbox_inches="tight")
 plt.show()
