@@ -75,5 +75,5 @@ fig.colorbar(sm, ax=axes, shrink=0.6, extend="both",
 fig.suptitle("Net external migration by comarca (annual average)",
              fontsize=17, fontweight="bold")
 
-plt.savefig("figures/mapa_saldo_extern_4periodes.png", dpi=300, bbox_inches="tight")
+plt.savefig("results/figures/mapa_saldo_extern_4periodes.png", dpi=300, bbox_inches="tight")
 plt.show()
