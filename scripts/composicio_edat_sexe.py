@@ -2,7 +2,7 @@ import os
 import pandas as pd
 
 # 1. Ruta exacta del teu projecte on es guardarà el fitxer
-carpeta_desti = r"/data/raw/demografia"
+carpeta_desti = r"data/raw/demografia"
 
 # Ens assegurem que la carpeta existeixi (si no existeix, la crea automàticament)
 os.makedirs(carpeta_desti, exist_ok=True)
