@@ -1,0 +1,23 @@
+
+name: migration-catalonia
+
+channels:
+  - conda-forge
+
+dependencies:
+  - python=3.12
+  - numpy
+  - pandas
+  - matplotlib
+  - seaborn
+  - geopandas
+  - shapely
+  - pyproj
+  - fiona
+  - plotly
+  - pillow
+  - requests
+  - beautifulsoup4
+  - jupyterlab
+  - ipykernel
+  - pip
