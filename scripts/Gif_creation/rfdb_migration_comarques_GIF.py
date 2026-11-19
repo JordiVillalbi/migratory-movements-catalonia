@@ -2,12 +2,23 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 from matplotlib.animation import FuncAnimation, PillowWriter
+from pathlib import Path
 
-# 1. Load and merge
-df_saldo = pd.read_csv('data/raw/migration/saldo_extern_comarques.csv')
-df_rfdb = pd.read_csv('data/raw/economics/rfdb_per_habitant_comarques_2005_2023.csv')
-merged = pd.merge(df_rfdb, df_saldo, left_on=['any', 'comarca'], right_on=['Any', 'Nom'])
+ROOT = Path(__file__).resolve().parents[2]
 
+CSV_SALDO = ROOT / "data" / "raw" / "migration" / "saldo_extern_comarques.csv"
+CSV_RFDB = ROOT / "data" / "raw" / "economics" / "rfdb_per_habitant_comarques_2005_2023.csv"
+
+df_saldo = pd.read_csv(CSV_SALDO)
+df_rfdb = pd.read_csv(CSV_RFDB)
+
+merged = pd.merge(
+    df_rfdb,
+    df_saldo,
+    left_on=["any", "comarca"],
+    right_on=["Any", "Nom"],
+    how="inner"
+)
 years = sorted(merged['any'].unique())
 
 # Keep axes fixed across all years
@@ -71,5 +82,8 @@ def update(year):
 
 # 3. Save directly to path
 anim = FuncAnimation(fig, update, frames=years, interval=800)
-anim.save('results/figures/rfdb_vs_migration_2005_2023.gif', writer=PillowWriter(fps=0.5), dpi=150)
+OUTPUT = ROOT / "results" / "figures" / "rfdb_vs_migration_2005_2023.gif"
+OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+
+anim.save(OUTPUT, writer=PillowWriter(fps=0.5), dpi=150)
 plt.show()
