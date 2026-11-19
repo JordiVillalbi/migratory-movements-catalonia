@@ -1,12 +1,15 @@
+from pathlib import Path
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
+ROOT_DIR = Path(__file__).resolve().parents[2]
+
 # Load files where data is stored
-df_immigration = pd.read_csv('data/processed/migration/immigracions_externes.csv')
-df_emigration = pd.read_csv('data/processed/migration/emigracions_externes.csv')
-df_irpf = pd.read_csv('data/raw/economics/irpf_2000_2024.csv', sep=';')
+df_immigration = pd.read_csv(ROOT_DIR / 'data' / 'processed' / 'migration' / 'immigracions_externes.csv')
+df_emigration = pd.read_csv(ROOT_DIR / 'data' / 'processed' / 'migration' / 'emigracions_externes.csv')
+df_irpf = pd.read_csv(ROOT_DIR / 'data' / 'raw' / 'economics' / 'irpf_2000_2024.csv', sep=';')
 
 # Filter only 'base imposable general per declarant (€)'
 df_base = df_irpf[df_irpf['concepte'] == 'base imposable general per declarant (€)'].set_index('any')
@@ -110,5 +113,7 @@ ax2.grid(True, linestyle=':', alpha=0.6)
 ax2.spines[['top', 'right']].set_visible(False)
 ax2.legend(loc='upper left', frameon=True, facecolor='white', edgecolor='#CCCCCC', fontsize=10)
 
-plt.savefig('results/figures/net_flux_and_base_imposable.png', dpi=300, bbox_inches='tight')
+ruta_figura = ROOT_DIR / 'results' / 'figures' / 'net_flux_and_base_imposable.png'
+ruta_figura.parent.mkdir(parents=True, exist_ok=True)
+plt.savefig(ruta_figura, dpi=300, bbox_inches='tight')
 plt.show()

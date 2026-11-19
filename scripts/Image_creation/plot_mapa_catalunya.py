@@ -7,7 +7,8 @@ from matplotlib.cm import ScalarMappable
 from matplotlib.patches import Patch
 from pathlib import Path
 
-CSV = "data/raw/migration/saldo_extern_comarques.csv"
+ROOT_DIR = Path(__file__).resolve().parents[2]
+CSV = ROOT_DIR / "data" / "raw" / "migration" / "saldo_extern_comarques.csv"
 
 # Períodes sense solapament; el 2021 és una ruptura de font de l'INE
 PERIODES = [
@@ -75,5 +76,7 @@ fig.colorbar(sm, ax=axes, shrink=0.6, extend="both",
 fig.suptitle("Net external migration by comarca (annual average)",
              fontsize=17, fontweight="bold")
 
-plt.savefig("results/figures/mapa_saldo_extern_4periodes.png", dpi=300, bbox_inches="tight")
+ruta_figura = ROOT_DIR / "results" / "figures" / "mapa_saldo_extern_4periodes.png"
+ruta_figura.parent.mkdir(parents=True, exist_ok=True)
+plt.savefig(ruta_figura, dpi=300, bbox_inches="tight")
 plt.show()

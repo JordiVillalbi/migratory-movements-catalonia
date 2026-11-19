@@ -1,8 +1,11 @@
+from pathlib import Path
 import pandas as pd
 import plotly.graph_objects as go
 
-df_emigracions = pd.read_csv(r"data/processed/emigracions_externes.csv")
-df_immigracions = pd.read_csv(r"data/processed/immigracions_externes.csv")
+ROOT_DIR = Path(__file__).resolve().parents[2]
+
+df_emigracions = pd.read_csv(ROOT_DIR / "data" / "processed" / "migration" / "emigracions_externes.csv")
+df_immigracions = pd.read_csv(ROOT_DIR / "data" / "processed" / "migration" / "immigracions_externes.csv")
 
 imm_grup = df_immigracions.groupby("procedencia")["valor"].sum()
 em_grup = df_emigracions.groupby("destinacio")["valor"].sum()

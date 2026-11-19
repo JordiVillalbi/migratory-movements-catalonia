@@ -1,14 +1,17 @@
+from pathlib import Path
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
+ROOT_DIR = Path(__file__).resolve().parents[2]
+
 # Select the year to plot (available: 2005 to 2022)
 YEAR = 2022
 
 # Load files where data is stored
-df_saldo = pd.read_csv('data/raw/migration/saldo_extern_comarques.csv')
-df_rfdb = pd.read_csv('data/raw/economics/rfdb_per_habitant_comarques_2005_2023.csv')
+df_saldo = pd.read_csv(ROOT_DIR / 'data' / 'raw' / 'migration' / 'saldo_extern_comarques.csv')
+df_rfdb = pd.read_csv(ROOT_DIR / 'data' / 'raw' / 'economics' / 'rfdb_per_habitant_comarques_2005_2023.csv')
 
 # Merge on year and comarca (inner join keeps overlapping years and excludes 'Catalunya' total)
 merged = pd.merge(
@@ -155,5 +158,7 @@ ax.legend(handles=legend_handles, loc='upper center', bbox_to_anchor=(0.5, 1.09)
           frameon=True, facecolor='white', edgecolor='#CCCCCC', fontsize=10)
 
 plt.tight_layout()
-plt.savefig(f'results/figures/rfdb_vs_migration_{YEAR}.png', dpi=300, bbox_inches='tight')
-plt.show() 
+ruta_figura = ROOT_DIR / 'results' / 'figures' / f'rfdb_vs_migration_{YEAR}.png'
+ruta_figura.parent.mkdir(parents=True, exist_ok=True)
+plt.savefig(ruta_figura, dpi=300, bbox_inches='tight')
+plt.show()

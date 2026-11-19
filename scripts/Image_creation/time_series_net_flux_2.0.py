@@ -1,11 +1,14 @@
+from pathlib import Path
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
+ROOT_DIR = Path(__file__).resolve().parents[2]
+
 # Load files where data is stored
-df_immigration = pd.read_csv('data/processed/migration/immigracions_externes.csv')
-df_emigration = pd.read_csv('data/processed/migration/emigracions_externes.csv')
+df_immigration = pd.read_csv(ROOT_DIR / 'data' / 'processed' / 'migration' / 'immigracions_externes.csv')
+df_emigration = pd.read_csv(ROOT_DIR / 'data' / 'processed' / 'migration' / 'emigracions_externes.csv')
 
 # We merge the columns that talk about nationality and gender as we are only interested in the net flux by regions
 immigration_agg = df_immigration.groupby(['any', 'procedencia'])['valor'].sum().reset_index()
@@ -92,5 +95,7 @@ ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.09), ncol=4,
           frameon=True, facecolor='white', edgecolor='#CCCCCC', fontsize=10)
 
 plt.tight_layout()
-plt.savefig('results/figures/net_flux_stacked_regions.png', dpi=300, bbox_inches='tight')
+ruta_figura = ROOT_DIR / 'results' / 'figures' / 'net_flux_stacked_regions.png'
+ruta_figura.parent.mkdir(parents=True, exist_ok=True)
+plt.savefig(ruta_figura, dpi=300, bbox_inches='tight')
 plt.show()

@@ -1,9 +1,12 @@
+from pathlib import Path as FilePath
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 from matplotlib.path import Path
 from matplotlib.markers import MarkerStyle
+
+ROOT_DIR = FilePath(__file__).resolve().parents[2]
 
 # 1. Custom vector person-silhouette marker
 def create_person_marker():
@@ -25,8 +28,8 @@ def create_person_marker():
 person_marker = create_person_marker()
 
 # 2. Load files where data is stored
-df_saldo = pd.read_csv('data/raw/migration/saldo_extern_comarques.csv')
-df_rfdb = pd.read_csv('data/raw/economics/rfdb_per_habitant_comarques_2005_2023.csv')
+df_saldo = pd.read_csv(ROOT_DIR / 'data' / 'raw' / 'migration' / 'saldo_extern_comarques.csv')
+df_rfdb = pd.read_csv(ROOT_DIR / 'data' / 'raw' / 'economics' / 'rfdb_per_habitant_comarques_2005_2023.csv')
 
 merged = pd.merge(
     df_rfdb,
@@ -195,5 +198,7 @@ ax.grid(True, linestyle=':', alpha=0.6)
 ax.spines[['top', 'right']].set_visible(False)
 
 plt.tight_layout()
-plt.savefig(f'results/figures/rfdb_evolution_isotypes_{min_year}_{max_year}.png', dpi=300, bbox_inches='tight')
+ruta_figura = ROOT_DIR / 'results' / 'figures' / f'rfdb_evolution_isotypes_{min_year}_{max_year}.png'
+ruta_figura.parent.mkdir(parents=True, exist_ok=True)
+plt.savefig(ruta_figura, dpi=300, bbox_inches='tight')
 plt.show()
