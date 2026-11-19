@@ -1,11 +1,10 @@
-import os
+from pathlib import Path
 import pandas as pd
 
 # 1. Ruta exacta del teu projecte
-carpeta_desti = r"data/raw/demografia"
-os.makedirs(carpeta_desti, exist_ok=True)
-ruta_fitxer = os.path.join(carpeta_desti, "poblacio_idescat_agrupada.csv")
-
+ROOT = Path.cwd().parents[1]
+carpeta_desti = ROOT / "data" / "raw" / "demografia"
+ruta_fitxer = carpeta_desti / "poblacio_idescat_agrupada.csv"
 # 2. Diccionari d'equivalències (Franges de 5 anys -> Franges de Migracions)
 mapa_edats = {
     "De 0 a 4 anys": "De 0 a 14 anys",
