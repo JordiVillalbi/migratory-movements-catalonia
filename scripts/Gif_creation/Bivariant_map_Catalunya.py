@@ -14,18 +14,19 @@ from PIL import Image
 # CONFIGURACIÓ
 # ==================================================
 
-CSV_MIGRACIO = "data/raw/migration/saldo_extern_comarques.csv"
-CSV_ATUR = "data/processed/social/atur_comarques.csv"
+from pathlib import Path
 
-OUTPUT_GIF = "results/figures/mapa_bivariant_migracio_atur.gif"
+ROOT = Path(__file__).resolve().parents[2]
 
-# True  -> els talls dels tercils es calculen amb TOTS els anys junts, de manera que
-#          els colors són comparables entre fotogrames (recomanat per a un GIF).
-# False -> els tercils es recalculen cada any (només mostra la posició relativa de l'any).
+CSV_MIGRACIO = ROOT / "data" / "raw" / "migration" / "saldo_extern_comarques.csv"
+CSV_ATUR = ROOT / "data" / "processed" / "social" / "atur_comarques.csv"
+
+OUTPUT_GIF = ROOT / "results" / "figures" / "mapa_bivariant_migracio_atur.gif"
+
 TERCILS_GLOBALS = True
 
-MS_PER_FRAME = 2000       # durada de cada any en mil·lisegons
-MS_ULTIM_FRAME = 5000     # pausa més llarga a l'últim any
+MS_PER_FRAME = 2000
+MS_ULTIM_FRAME = 5000
 DPI = 100
 
 # ==================================================
