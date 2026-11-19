@@ -1,14 +1,16 @@
 import csv
 import re
 import time
-
+from pathlib import Path
 import requests
 from bs4 import BeautifulSoup
 
 URL = "https://www.idescat.cat/indicadors/"
 PARAMS = {"id": "aec", "n": "15303"}  # fil=<número> es va afegint per comarca
-OUTPUT = "data/processed/social/atur_comarques.csv"
+# Arrel del repositori: puja dos nivells des de scripts/Data_processing
+ROOT = Path(__file__).resolve().parents[2]
 
+OUTPUT = ROOT / "data" / "processed" / "social" / "atur_comarques.csv"
 # Ordre del desplegable de l'Idescat: fil=1 és Alt Camp ... fil=43 és Vallès Oriental
 COMARQUES = [
     "Alt Camp", "Alt Empordà", "Alt Penedès", "Alt Urgell", "Alta Ribagorça",

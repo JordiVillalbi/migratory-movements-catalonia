@@ -2,12 +2,13 @@ import os
 import re
 import urllib.request
 import pandas as pd
+from pathlib import Path
 
 # 1. Ruta exacta del teu projecte on es guardarà el fitxer
-carpeta_desti = r"data/raw/economics"
-os.makedirs(carpeta_desti, exist_ok=True)
-ruta_fitxer = os.path.join(carpeta_desti, "rfdb_per_inhabitant_2005_2009.csv")
-
+ROOT = Path(__file__).resolve().parents[2]
+carpeta_desti = ROOT / "data" / "raw" / "economics"
+carpeta_desti.mkdir(parents=True, exist_ok=True)
+ruta_fitxer = carpeta_desti / "rfdb_per_inhabitant_2005_2009.csv"
 
 def trobar_codis_taula_rfdb():
   """Llegeix l'índex HTML de l'Idescat per trobar els codis 'n=' reals de RFDB per comarques."""
