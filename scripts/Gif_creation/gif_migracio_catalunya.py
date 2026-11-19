@@ -8,8 +8,11 @@ from matplotlib.patches import Patch
 from pathlib import Path
 from matplotlib.animation import FuncAnimation, PillowWriter
 
-CSV = "data/raw/migration/saldo_extern_comarques.csv"
+ROOT = Path(__file__).resolve().parents[2]
 
+CSV = ROOT / "data" / "raw" / "migration" / "saldo_extern_comarques.csv"
+
+OUTPUT_GIF = ROOT / "results" / "figures" / "mapa_saldo_extern_anual.gif"
 df = pd.read_csv(CSV)
 df["Codi"] = df["Codi"].astype(str).str.zfill(2)
 
@@ -111,7 +114,7 @@ ani = FuncAnimation(
 
 # Guardar GIF
 ani.save(
-    "results/figures/mapa_saldo_extern_anual.gif",
+    OUTPUT_GIF,
     writer=PillowWriter(fps=1),
     dpi=150
 )
