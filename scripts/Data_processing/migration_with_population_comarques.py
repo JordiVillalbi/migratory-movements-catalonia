@@ -5,13 +5,14 @@ from pathlib import Path
 
 import pandas as pd
 import requests
+ROOT = Path(__file__).resolve().parents[2]
 
 MIG = "https://www.idescat.cat/pub/?id=mm&n=5489&geo=com%3A{c}&f=ssv"
 POB = "https://www.idescat.cat/indicadors/?id=aec&n=15224&f=ssv&t={a}00"
-ANY_MIN, ANY_MAX = 2002, 2022       # el saldo extern només existeix des del 2002
-SORTIDA = Path("data/raw/migration/saldo_extern_comarques.csv")
 
+ANY_MIN, ANY_MAX = 2002, 2022
 
+SORTIDA = ROOT / "data" / "raw" / "migration" / "saldo_extern_comarques.csv"
 def num(x):
     """'47.138' / '4288 (b)' -> número ; '..' -> NaN"""
     x = re.sub(r"\(.*?\)", "", str(x)).replace(".", "").replace(" ", "")
