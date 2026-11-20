@@ -38,7 +38,7 @@ for any_actual in anys:
         if not df.empty:
             df.insert(0, "Any", any_actual)
             taules.append(df)
-            print(f"✅ Any {any_actual} descarregat.")
+            print(f"Any {any_actual} descarregat.")
             
     except Exception:
         pass
@@ -47,6 +47,6 @@ for any_actual in anys:
 if taules:
     df_final = pd.concat(taules, ignore_index=True)
     df_final.to_csv(ruta_fitxer, index=False, sep=";", encoding="utf-8-sig")
-    print(f"\n🎉 Fet! Fitxer guardat correctament a:\n{ruta_fitxer}")
+    print(f"\n Fet! Fitxer guardat correctament a:\n{ruta_fitxer}")
 else:
-    print("\n❌ No s'han pogut descarregar dades.")
+    print("\n No s'han pogut descarregar dades.")

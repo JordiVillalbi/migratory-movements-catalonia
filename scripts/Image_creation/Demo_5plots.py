@@ -38,6 +38,15 @@ BLAU = "#2B5C8F"
 VERMELL = "#C0392B"
 GRIS = "#8C969E"
 
+PALETA_EDATS = [
+    "#A6CEE3",  # De 0 a 14 anys
+    "#5B9BD5",  # De 15 a 29 anys
+    "#2B5C8F",  # De 30 a 34 anys
+    "#1B3B5C",  # De 35 a 44 anys
+    "#6E7B8B",  # De 45 a 59 anys
+    "#C0392B"   # De 60 anys i més
+]
+
 ORDRE_EDATS = [
     "De 0 a 14 anys",
     "De 15 a 29 anys",
@@ -59,9 +68,10 @@ AMPLADA_INTERVAL = {
 # ==============================================================================
 # 3. CÀRREGA DE DADES
 # ==============================================================================
-def carregar_dades(ruta: Path) -> pd.DataFrame:
+def carregar_dades(ruta: Path, anys: list[int] | None = None) -> pd.DataFrame:
     df = pd.read_csv(ruta, sep=";")
-    df = df[df["Any"].isin([2022, 2023, 2024])].copy()
+    if anys is not None:
+        df = df[df["Any"].isin(anys)].copy()
     df = df[df["Grup_edat"].isin(ORDRE_EDATS)].copy()
     
     df["Grup_edat"] = pd.Categorical(df["Grup_edat"], categories=ORDRE_EDATS, ordered=True)
@@ -209,14 +219,93 @@ def plot_estructura_comparada(df: pd.DataFrame, output_path: Path):
     plt.close()
 
 # ==============================================================================
+# GRÀFIC 5: EVOLUCIÓ DE LA COMPOSICIÓ PER EDAT DE LA POBLACIÓ TOTAL (%)
+# ==============================================================================
+def plot_evolucio_composicio_edat(df: pd.DataFrame, output_path: Path):
+    pivot_abs = df.pivot_table(
+        index="Any", 
+        columns="Grup_edat", 
+        values="Poblacio_total", 
+        aggfunc="sum",
+        observed=False
+    )
+    pivot_pct = pivot_abs.div(pivot_abs.sum(axis=1), axis=0) * 100
+
+    fig, ax = plt.subplots(figsize=(10, 5.5))
+    
+    anys = pivot_pct.index.astype(str)
+    x = np.arange(len(anys))
+    bottom = np.zeros(len(anys))
+
+    for i, grup in enumerate(ORDRE_EDATS):
+        valors = pivot_pct[grup].values
+        ax.bar(
+            x, 
+            valors, 
+            bottom=bottom, 
+            width=0.6, 
+            color=PALETA_EDATS[i], 
+            edgecolor="white", 
+            linewidth=0.7,
+            label=grup
+        )
+        
+        for j, val in enumerate(valors):
+            if val >= 4.5:
+                text_color = "white" if i in [2, 3, 4, 5] else "#111111"
+                ax.text(
+                    x[j], 
+                    bottom[j] + val / 2, 
+                    f"{val:.1f}%", 
+                    ha="center", 
+                    va="center", 
+                    fontsize=8.5, 
+                    color=text_color,
+                    fontweight="bold" if i == 5 else "normal"
+                )
+        bottom += valors
+
+    ax.set_xticks(x)
+    ax.set_xticklabels(anys, fontsize=10)
+    ax.yaxis.set_major_formatter(mtick.PercentFormatter())
+    ax.set_ylim(0, 100)
+    ax.set_axisbelow(True)
+
+    ax.set_title(
+        "Evolució de l'estructura per edat de la població total de Catalunya (%)", 
+        fontsize=12, 
+        fontweight="bold", 
+        loc="left", 
+        pad=14
+    )
+    ax.set_ylabel("Pes sobre la població total (%)", fontsize=10)
+
+    ax.legend(
+        title="Grup d'edat",
+        title_fontsize=9.5,
+        frameon=False, 
+        bbox_to_anchor=(1.02, 1), 
+        loc="upper left", 
+        fontsize=9
+    )
+
+    plt.savefig(output_path)
+    plt.close()
+
+# ==============================================================================
 # EXECUCIÓ
 # ==============================================================================
 if __name__ == "__main__":
-    df_cat = carregar_dades(DATA_PATH)
+    # 1. Dades recents (2022–2024) per als 4 primers gràfics
+    df_22_24 = carregar_dades(DATA_PATH, anys=[2022, 2023, 2024])
 
-    plot_fluxos_edat(df_cat, FIGURES_DIR / "01_fluxos_migratoris_edat.png")
-    plot_piramide(df_cat, PIRAMIDES_DIR / "02_piramide_real_vs_sense_migracio.png")
-    plot_heatmap_taxa(df_cat, FIGURES_DIR / "03_heatmap_taxa_migratoria.png")
-    plot_estructura_comparada(df_cat, FIGURES_DIR / "04_estructura_poblacio_vs_migracio.png")
+    plot_fluxos_edat(df_22_24, FIGURES_DIR / "01_fluxos_migratoris_edat.png")
+    plot_piramide(df_22_24, PIRAMIDES_DIR / "02_piramide_real_vs_sense_migracio.png")
+    plot_heatmap_taxa(df_22_24, FIGURES_DIR / "03_heatmap_taxa_migratoria.png")
+    plot_estructura_comparada(df_22_24, FIGURES_DIR / "04_estructura_poblacio_vs_migracio.png")
+
+    # 2. Tots els anys disponibles per al gràfic d'evolució
+    df_historic = carregar_dades(DATA_PATH)
+    plot_evolucio_composicio_edat(df_historic, FIGURES_DIR / "05_evolucio_composicio_edat.png")
     
     print("Gràfics generats correctament.")
