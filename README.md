@@ -142,7 +142,7 @@ their own folder.
 
 ## AI disclaimer
 
-Parts of the code, comments and documentation (including this README) were written or revised with the help of AI tools. All content has been reviewed by the authors.
+Parts of the code, comments and documentation (including this README) were written or revised with the help of AI tools, namely, Claude Sonnet 5.5, Gemini Hydrogen and ChatGPT-6. All content has been reviewed by the authors.
 
 ## License
 
