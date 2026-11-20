@@ -5,7 +5,7 @@ demography, income, unemployment and education. The project cross-references ope
 [Idescat](https://www.idescat.cat) (the Statistical Institute of Catalonia) and the Catalan education
 data to produce static figures, maps and animated GIFs.
 
-Repository originally named `Projecte_Big_Data` · Author: [Jordi Villalbi](https://github.com/JordiVillalbi)
+Repository originally named `Projecte_Big_Data` · Authors: [Jordi Villalbi, Maria Salceda, Carles Lopez-Arenas, Joan Lmapurlanés](https://github.com/JordiVillalbi)
 
 ## Questions explored
 
