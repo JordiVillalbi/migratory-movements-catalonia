@@ -24,7 +24,7 @@ merged = pd.merge(
 
 df_year = merged[merged['any'] == YEAR].copy()
 
-# Calculate Catalonia population-weighted averages for the quadrant crosshairs
+# Calculate Catalonia population-weighted averages 
 avg_rfdb = (df_year['rfdb_per_habitant_euros'] * df_year['Poblacio']).sum() / df_year['Poblacio'].sum()
 avg_saldo = (df_year['Saldo_ext'].sum() / df_year['Poblacio'].sum()) * 1000
 
@@ -162,3 +162,4 @@ ruta_figura = ROOT_DIR / 'results' / 'figures' / f'rfdb_vs_migration_{YEAR}.png'
 ruta_figura.parent.mkdir(parents=True, exist_ok=True)
 plt.savefig(ruta_figura, dpi=300, bbox_inches='tight')
 plt.show()
+
