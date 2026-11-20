@@ -3,8 +3,13 @@
 Ús:  python3 unir_csv.py carpeta_amb_csv sortida.csv
 Accepta fitxers .csv amb coma o punt i coma. L'any s'extreu de la línia
 'Catalunya. AAAA' (o, si falla, del nom del fitxer)."""
-import csv, re, sys, glob, os
+import csv
+import glob
+import os
+import re
+import sys
 from collections import defaultdict
+
 
 def llegeix(path):
     txt = open(path, encoding='utf-8-sig').read()

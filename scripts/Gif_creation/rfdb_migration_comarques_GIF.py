@@ -1,8 +1,9 @@
-import pandas as pd
-import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
-from matplotlib.animation import FuncAnimation, PillowWriter
 from pathlib import Path
+
+import matplotlib.pyplot as plt
+import pandas as pd
+from matplotlib import ticker
+from matplotlib.animation import FuncAnimation, PillowWriter
 
 ROOT = Path(__file__).resolve().parents[2]
 

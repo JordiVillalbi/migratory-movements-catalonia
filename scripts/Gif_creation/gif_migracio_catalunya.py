@@ -1,12 +1,12 @@
-import numpy as np
-import pandas as pd
+from pathlib import Path
+
 import geopandas as gpd
 import matplotlib.pyplot as plt
-from matplotlib.colors import Normalize
-from matplotlib.cm import ScalarMappable
-from matplotlib.patches import Patch
-from pathlib import Path
+import numpy as np
+import pandas as pd
 from matplotlib.animation import FuncAnimation, PillowWriter
+from matplotlib.cm import ScalarMappable
+from matplotlib.colors import Normalize
 
 ROOT = Path(__file__).resolve().parents[2]
 

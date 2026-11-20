@@ -5,7 +5,7 @@ demography, income, unemployment and education. The project cross-references ope
 [Idescat](https://www.idescat.cat) (the Statistical Institute of Catalonia) and the Catalan education
 data to produce static figures, maps and animated GIFs.
 
-Repository originally named `Projecte_Big_Data` · Author: [Jordi Villalbi](https://github.com/JordiVillalbi)
+Repository originally named `Projecte_Big_Data` · Authors: [Jordi Villalbi, Maria Salceda, Carles López-Arenas, Joan Lampurlanés](https://github.com/JordiVillalbi)
 
 ## Questions explored
 
@@ -139,6 +139,10 @@ their own folder.
 - The 2021 data point has a source change at the INE, so figures treat 2021–2022 as a separate period.
 - Net migration by comarca excludes the Lluçanès (created in 2023), while unemployment includes it.
 - Annotation marks from Idescat (e.g. provisional values) are stripped during cleaning.
+
+## AI disclaimer
+
+Parts of the code, comments and documentation (including this README) were written or revised with the help of AI tools, namely, Claude Sonnet 5.5, Gemini Hydrogen and ChatGPT-6. All content has been reviewed by the authors.
 
 ## License
 
