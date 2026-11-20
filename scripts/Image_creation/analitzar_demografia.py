@@ -1,7 +1,8 @@
 from pathlib import Path
-import pandas as pd
-import numpy as np
+
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 
 # 1. RUTES RELATIVES (Apunta automàticament a 'Projecte_Big_ Data/' des de 'scripts/')
 ROOT_DIR = Path(__file__).resolve().parents[1]

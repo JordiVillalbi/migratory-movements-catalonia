@@ -1,4 +1,5 @@
 import os
+
 import pandas as pd
 
 # 1. Ruta exacta del teu projecte

@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pandas as pd
 import requests
+
 ROOT = Path(__file__).resolve().parents[2]
 
 MIG = "https://www.idescat.cat/pub/?id=mm&n=5489&geo=com%3A{c}&f=ssv"

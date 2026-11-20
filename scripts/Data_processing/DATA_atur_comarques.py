@@ -2,6 +2,7 @@ import csv
 import re
 import time
 from pathlib import Path
+
 import requests
 from bs4 import BeautifulSoup
 

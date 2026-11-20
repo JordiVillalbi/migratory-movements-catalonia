@@ -1,10 +1,11 @@
 from pathlib import Path as FilePath
-import pandas as pd
-import numpy as np
+
 import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
-from matplotlib.path import Path
+import numpy as np
+import pandas as pd
+from matplotlib import ticker
 from matplotlib.markers import MarkerStyle
+from matplotlib.path import Path
 
 ROOT_DIR = FilePath(__file__).resolve().parents[2]
 

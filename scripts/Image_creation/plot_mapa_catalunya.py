@@ -1,11 +1,12 @@
-import numpy as np
-import pandas as pd
+from pathlib import Path
+
 import geopandas as gpd
 import matplotlib.pyplot as plt
-from matplotlib.colors import Normalize
+import numpy as np
+import pandas as pd
 from matplotlib.cm import ScalarMappable
+from matplotlib.colors import Normalize
 from matplotlib.patches import Patch
-from pathlib import Path
 
 ROOT_DIR = Path(__file__).resolve().parents[2]
 CSV = ROOT_DIR / "data" / "raw" / "migration" / "saldo_extern_comarques.csv"
