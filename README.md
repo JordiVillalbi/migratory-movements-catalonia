@@ -5,8 +5,8 @@ demography, income, unemployment and education. The project cross-references ope
 [Idescat](https://www.idescat.cat) (the Statistical Institute of Catalonia) and the Catalan education
 data to produce static figures, maps and animated GIFs.
 
-Repository originally named `Projecte_Big_Data` · Authors: [Jordi Villalbi, Maria Salceda, Carles López-Arenas, Joan Lampurlanés](https://github.com/JordiVillalbi)
-
+Repository originally named `Projecte_Big_Data` · Authors: [Jordi Villalbi](https://github.com/JordiVillalbi)
+, [Maria Salceda](https://github.com/mariasalceda), [Carles López-Arenas](https://github.com/carleslopez-11), [Joan Lampurlanés](https://github.com/joan-24)
 ## Questions explored
 
 - Where do people who move to (and out of) Catalonia come from, and how has the **net flow** by world region evolved since 2005?
