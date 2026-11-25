@@ -31,7 +31,6 @@ Repository originally named `Projecte_Big_Data` · Authors: [Jordi Villalbi](htt
 | `scripts/Data_processing/` | Downloading, scraping, cleaning and merging |
 | `scripts/Image_creation/` | Static figures (Matplotlib, Plotly) |
 | `scripts/Gif_creation/` | Animated maps and charts |
-| `scripts/analitzar_demografia.py` | Age/sex analysis of migration and population pyramids |
 | `results/figures/` | Generated PNG and GIF files |
 | `environment.yml` | Conda environment (`migration-catalonia`) |
 | `LICENSE` | GPL-3.0 |
@@ -77,7 +76,7 @@ Scripts are grouped by stage; run the data processing stage first.
 | `DATA_atur_comarques.py` | Scrapes Idescat to build `atur_comarques.csv` |
 | `composicio_edat_sexe.py` | Downloads household income (RFDB) per comarca from Idescat |
 | `dades_edat_pob_total.py` | Downloads population by age and regroups it into the age bands used for migration |
-| `../analitzar_demografia.py` | Merges migration and population by age, computes net rates and an efficiency index, and draws yearly migration pyramids |
+| `analitzar_demografia.py` | Merges migration and population by age, computes net rates and an efficiency index, and draws yearly migration pyramids |
 
 ### 2. Static figures (`scripts/Image_creation/`)
 
@@ -89,6 +88,7 @@ Scripts are grouped by stage; run the data processing stage first.
 | `rfdb_per_inhabitant_comarca_any.py` | Income vs migration quadrant chart for a chosen year (`rfdb_vs_migration_2022`) |
 | `rfdb_per_inhabitant_all_years.py` | Income vs migration evolution charts, including person-icon markers (`rfdb_evolution_*`, `migration_evolution_*`) |
 | `sankey_diagram_migration.py` | Interactive Plotly Sankey: origins → Catalonia → destinations |
+| `figures_migracions.py` | Age structure of net migration vs residents, net migration rate by age, and population evolution with vs without migration (`01_estructura_edat`, `02_taxa_migratoria`, `03_evolucio_composicio_edat`) |
 
 
 ### 3. Animations (`scripts/Gif_creation/`)
@@ -116,7 +116,7 @@ Generated files live in [`results/figures/`](results/figures/):
 - Net migration maps by comarca (4-period panel and annual GIF) and a bivariate migration–unemployment map
 - Net migration flow by region of origin/destination (time series and stacked)
 - Income (RFDB, IRPF) against migration, static and animated
-- Migration pyramids by age and sex, 2012–2026
+- Age structure of migration, net migration rates by age group, and counterfactual population evolution with vs without migration since 2012
 - Foreign students in ESO and its comparison with migratory flux, and 4th-year ESO results by gender and gender-free
 
 ## Environment setup
@@ -138,7 +138,7 @@ Main packages: `pandas`, `numpy`, `geopandas`, `shapely`, `pyproj`, `fiona`, `ma
 ## Reproducing the analysis
 
 1. Create the environment (above). An internet connection is needed: several scripts download data from Idescat, and the map scripts fetch comarca boundaries from an online ArcGIS service.
-2. Run the scripts in `scripts/Data_processing/`, then `scripts/analitzar_demografia.py`.
+2. Run the scripts in `scripts/Data_processing/`.
 3. Run the scripts in `scripts/Image_creation/` and `scripts/Gif_creation/`.
 
 Most scripts locate the project root from their own path, but the three scripts in `Gif_creation/`
