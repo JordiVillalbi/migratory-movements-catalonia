@@ -27,6 +27,7 @@ Repository originally named `Projecte_Big_Data` · Authors: [Jordi Villalbi](htt
 |---|---|
 | `data/raw/` | Datasets as downloaded from the sources (some via scraping scripts) |
 | `data/processed/` | Cleaned and merged tables produced by the scripts |
+| `notebooks` | Notebooks for image creation and data processing |
 | `scripts/Data_processing/` | Downloading, scraping, cleaning and merging |
 | `scripts/Image_creation/` | Static figures (Matplotlib, Plotly) |
 | `scripts/Gif_creation/` | Animated maps and charts |
