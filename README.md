@@ -74,7 +74,7 @@ Scripts are grouped by stage; run the data processing stage first.
 | `join_csv.py` | Merges the yearly Idescat immigration/emigration CSVs into one long table |
 | `migration_with_population_comarques.py` | Downloads net external migration and population by comarca and writes `saldo_extern_comarques.csv` |
 | `DATA_atur_comarques.py` | Scrapes Idescat to build `atur_comarques.csv` |
-| `composicio_edat_sexe.py` | Downloads household income (RFDB) per comarca from Idescat |
+| `composicio_edat_sexe.py` | Downloads external migration by age group and sex from Idescat (2005–2026) into `migracions_idescat_tots_els_anys.csv` |
 | `dades_edat_pob_total.py` | Downloads population by age and regroups it into the age bands used for migration |
 | `analitzar_demografia.py` | Merges migration and population by age, computes net rates and an efficiency index, and draws yearly migration pyramids |
 
