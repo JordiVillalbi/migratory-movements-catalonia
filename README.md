@@ -54,9 +54,13 @@ All sources are Catalan/Spanish official statistics. Every file keeps the source
 | Personal income tax (IRPF) | `economics/irpf_2000_2024.csv` | 2000–2024, Catalonia | Idescat |
 | Employment rate | `economics/taxa_ocupacio.csv` | Catalonia, Spain, EU | Idescat (EPA) and Eurostat |
 | Unemployment by comarca | `data/processed/social/atur_comarques.csv` | 2015–2025, 43 comarques, by sex | Idescat |
-| Foreign students per classroom | `education/alumnes_estrangers_per_aula/` (one file per school year) | 2015/16–2024/25 | Catalan education department enrolment files |
+| Foreign students per classroom raw data | `education/alumnes_estrangers_per_aula/` (one file per school year) | 2015/16–2024/25 | Catalan education department enrolment files |
+| Foreign students per classroom processed data | `data/processed/education/dades_netes_estrangers_eso.csv` | 2012/13–2024/25; single-file data | Catalan education department enrolment files |
 | Early school leaving | `education/abandonament_prematur.csv` | Catalonia / Spain / EU | Idescat, Eurostat |
-| 4th-year ESO results | `data/processed/education/resultats_academics__quart_eso_processat.csv` | 2012–2025; Catalan, reading, writing and maths scores by gender | Catalan education department |
+| 4th-year ESO raw results  | `resultats_academics_quart_eso_raw.zip` | Catalonia / Spain / EU | Idescat, Eurostat |
+| 4th-year ESO processed results v1 | `data/processed/education/resultats_academics__quart_eso_processat.csv` | 2012–2025; Catalan, reading, writing and maths scores by gender | Catalan education department |
+| 4th-year ESO processed results v2 | `data/processed/education/resultats_academics_quart_eso_processat_nou.csv` | 2012–2025; Catalan, reading, writing and maths scores by nature (public or private school) and number of inhabitants | Catalan education department |
+
 
 > Check the terms of use of each original source before reusing the data.
 
@@ -73,12 +77,11 @@ Scripts are grouped by stage; run the data processing stage first.
 | `DATA_atur_comarques.py` | Scrapes Idescat to build `atur_comarques.csv` |
 | `composicio_edat_sexe.py` | Downloads household income (RFDB) per comarca from Idescat |
 | `dades_edat_pob_total.py` | Downloads population by age and regroups it into the age bands used for migration |
-| `alumnes_per_aula.ipynb` | Counts foreign pupils in compulsory secondary education per school year |
 | `../analitzar_demografia.py` | Merges migration and population by age, computes net rates and an efficiency index, and draws yearly migration pyramids |
 
 ### 2. Static figures (`scripts/Image_creation/`)
 
-| Script / notebook | Output |
+| Script | Output |
 |---|---|
 | `time_series_net_flux.py`, `time_series_net_flux_2.0.py` | Net migration flow by region of origin/destination (`flux_migratori_net_regions`, `net_flux_stacked_regions`) |
 | `irpf_vs_net_flux.py` | Net flow against income-tax base per taxpayer (`net_flux_and_base_imposable`) |
@@ -86,8 +89,7 @@ Scripts are grouped by stage; run the data processing stage first.
 | `rfdb_per_inhabitant_comarca_any.py` | Income vs migration quadrant chart for a chosen year (`rfdb_vs_migration_2022`) |
 | `rfdb_per_inhabitant_all_years.py` | Income vs migration evolution charts, including person-icon markers (`rfdb_evolution_*`, `migration_evolution_*`) |
 | `sankey_diagram_migration.py` | Interactive Plotly Sankey: origins → Catalonia → destinations |
-| `alumnes_aula_tendencia.ipynb` | Evolution of foreign students (`foreign_students_evolution`) |
-| `analisi_4t_eso.ipynb` | 4th-year ESO results by gender (`evolucio_4t_eso`) |
+
 
 ### 3. Animations (`scripts/Gif_creation/`)
 
@@ -97,6 +99,16 @@ Scripts are grouped by stage; run the data processing stage first.
 | `Bivariant_map_Catalunya.py` | Bivariate map of migration × unemployment (terciles) |
 | `rfdb_migration_comarques_GIF.py` | Income vs migration scatter animated by year |
 
+## Notebooks
+
+| Script | Output |
+|---|---|
+| `alumnes_aula_tendencia.ipynb` | Evolution of the number of foreign students in Catalan classes (`foreign_students_evolution`) |
+| `alumnes_municipis_menors.ipynb` | 4th-year ESO results averaged across public Catalan schools in villages with 100000 inhabitants or less (`evolucio_4t_eso`) |
+| `alumnes_per_aula.ipynb` | Counts foreign pupils in compulsory secondary education per school year |
+| `analisi_4t_eso.ipynb` | 4th-year ESO results by gender and averaged, across all Catalan schools (`evolucio_4t_eso`) |
+| `comparativa_4t_eso.ipynb` | Puts together the averaged results for all Catalan schools and public schools in villages with 100000 inhabitants or less. Also, plots net migratory flux in Catalonia and compares it with the evolution of the number of foreign students in Catalan classes, and with the rate in which this evolution happens.  |
+
 ## Results
 
 Generated files live in [`results/figures/`](results/figures/):
@@ -105,7 +117,7 @@ Generated files live in [`results/figures/`](results/figures/):
 - Net migration flow by region of origin/destination (time series and stacked)
 - Income (RFDB, IRPF) against migration, static and animated
 - Migration pyramids by age and sex, 2012–2026
-- Foreign students in ESO and 4th-year ESO results by gender
+- Foreign students in ESO and its comparison with migratory flux, and 4th-year ESO results by gender and gender-free
 
 ## Environment setup
 
